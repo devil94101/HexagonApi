@@ -7,6 +7,9 @@ app.use(cors());
 const PORT=process.env.PORT||5000
 app.use(express.json());
 app.use('/api',router);
+app.get('/',(req,res)=>{
+    res.send("working..");
+})
 app.listen(PORT,(err)=>{
     if(err)console.log(err);
     else{
