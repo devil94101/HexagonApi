@@ -31,7 +31,7 @@ router.post('/neighbour',(req,res)=>{
     let ans=[];
     if(!data[req.body.name]['isCovidFree']){
         for(let i of data[req.body.name]['neighbours']){
-            if(!data[name[i.name]]['isCovidFree']){
+            if(!data[i.name]['isCovidFree']){
                 ans.push(i);
             }
         }
@@ -39,7 +39,7 @@ router.post('/neighbour',(req,res)=>{
     let nn=req.body.name;
     let xx={
         name:nn,
-        neigh:ans
+        neighbours:ans
     }
     res.send(xx);
 })
@@ -75,6 +75,7 @@ router.post('/free',(req,res)=>{
 })
 function fun(x){
     if(Object.keys(data).length==0){
+
         data[x.par]={
             isCovidFree:false,
             neighbours:[]
@@ -107,6 +108,7 @@ function fun(x){
     if(data[x.child]!=undefined){
         return({err:true,msg:"hexagon already exist use another name "});
     }
+    console.log('chala')
     data[x.par]['neighbours'].push({
         border:x.border,
         name:x.child
@@ -115,8 +117,8 @@ function fun(x){
         border:border[x.border],
         name:x.par
     }]
-    let s=(x.border-1)==-1?5:x.border-1;
-    let con=(border[x.border]+1)==6?0:border[x.border]+1;
+    let s=(parseInt(x.border)-1)==-1?5:parseInt(x.border)-1;
+    let con=(border[parseInt(x.border)]+1)==6?0:border[parseInt(x.border)]+1;
     let x_name=x.par;
     let vis={};
     while(true){
@@ -143,9 +145,10 @@ function fun(x){
             break;
         }
     }
-    s=(x.border+1)==6?0:x.border+1;
-    con=(border[x.border]-1)==-1?5:border[x.border]-1;
+    s=(parseInt(x.border)+1)==6?0:parseInt(x.border)+1;
+    con=(border[parseInt(x.border)]-1)==-1?5:border[parseInt(x.border)]-1;
     x_name=x.par;
+    console.log(s)
     while(true){
         let flag=0;
         for(let i of data[x_name]['neighbours']){
